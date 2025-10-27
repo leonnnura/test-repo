@@ -1,0 +1,71 @@
+# values.yaml
+mode: "daemonset"
+
+# Default values for opentelemetry-collector.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# nameOverride: ""
+# fullnameOverride: ""
+
+# Valid values are "daemonset", "deployment", and "statefulset".
+
+replicaCount: 1
+
+image:
+  # If you want to use the core image `otel/opentelemetry-collector`, you also need to change `command.name` value to `otelcol`.
+  repository: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # tag: ""
+  # When digest is set to a non-empty value, images will be pulled by digest (regardless of tag value).
+  # digest: ""
+# imagePullSecrets: []
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+topologySpreadConstraints: []
+
+presets:
+  logsCollection:
+    enabled: true
+    includeCollectorLogs: true
+# qweqeq
+config:
+  exporters:
+    # gRPC exporter → Tempo
+    otlp:
+      endpoint: lgtm-tempo-distributor.lgtm.svc.cluster.local:4317
+      tls:
+        insecure: true          # Tempo inside the cluster normally has no TLS
+    otlphttp:
+      endpoint: http://lgtm-tempo-distributor.lgtm.svc.cluster.local:4318
+    # Loki exporter → Loki
+    # loki:
+    #   endpoint: http://lgtm-loki-gateway.lgtm.svc.cluster.local/loki/api/v1/push
+    #   labels:
+    #     cluster: hplus-devops-cluster
+    #     job: otel-collector
+    #   tls:
+    #     insecure: true   
+  service:
+    pipelines:
+      traces:
+        exporters:
+          - otlp
+          - otlphttp
+        processors:
+          - memory_limiter
+          - batch
+        receivers:
+          - otlp
+      # logs:
+      #   exporters:
+      #     - loki
+      #   processors:
+      #     - memory_limiter
+      #     - batch
+      #   receivers:
+      #     - otlp
