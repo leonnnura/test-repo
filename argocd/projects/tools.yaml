@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: tools
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Internal Tools Management
+  sourceNamespaces:
+  # Namespaces where application of this project can reside in
+  - argocd
+  - hplus-develop-cluster
+  - hplus-devops-cluster
+  - hplus-prod-cluster
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    name: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  namespaceResourceBlacklist: []
+  roles: []
