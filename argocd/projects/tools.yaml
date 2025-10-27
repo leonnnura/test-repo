@@ -11,9 +11,7 @@ spec:
   sourceNamespaces:
   # Namespaces where application of this project can reside in
   - argocd
-  - hplus-develop-cluster
-  - hplus-devops-cluster
-  - hplus-prod-cluster
+  - local-dev
   sourceRepos:
   - '*'
   destinations:
