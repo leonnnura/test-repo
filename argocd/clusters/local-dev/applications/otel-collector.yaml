@@ -10,7 +10,7 @@ spec:
 
   # Source of the application manifests
   sources:
-  - repoURL: https://github.com/Matrics-io/platform-infra.git
+  - repoURL: https://github.com/leonnnura/test-repo.git
     targetRevision: main
     # path: argocd/clusters/hplus-develop-cluster/deployments/otel-collector/resources
     ref: values
