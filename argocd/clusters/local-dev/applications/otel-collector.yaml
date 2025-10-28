@@ -20,8 +20,8 @@ spec:
     chart: opentelemetry-collector
     helm:
       valueFiles:
-      - $values/argocd/clusters/hplus-devops-cluster/deployments/otel-collector/values.yaml
-
+      - $values/argocd/clusters/local-dev/deployments/otel-collector/values.yaml
+# 
   destination:
     name: local-dev
     namespace: otel-collector
